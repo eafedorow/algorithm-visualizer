@@ -1,0 +1,13 @@
+.sorting__chart {
+  width: 74%;
+  border-radius: 12px;
+  padding: 20px 0px 20px 0;
+  background-color: #fff;
+}
+
+@media (max-width: 840px) {
+  .sorting__chart {
+    width: 100%;
+    height: 20%;
+  }
+}

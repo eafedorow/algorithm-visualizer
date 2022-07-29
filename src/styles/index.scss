@@ -1,0 +1,35 @@
+@import '~normalize.css';
+@import 'variables';
+@import 'legendItemColors';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+*, *:after, *:before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: $light-color;
+}
+
+.globalContainer {
+  background: linear-gradient(180deg,#6aaeff,rgba(106,174,255,.341) 99.99%,#06292e);
+  margin: 0 auto;
+  transition: 0.3s;
+}
+
+.container {
+  padding: 20px 60px;
+  height: 100vh;
+  position: relative;
+}
+
+@media (max-width: 920px) {
+  .container {
+    padding: 20px 25px;
+  }
+}
+
+

@@ -1,0 +1,23 @@
+
+.sorting {
+  margin-top: 1px;
+  display: flex;
+  justify-content: space-between;
+  column-gap: 30px;
+}
+
+.buttonsContainer {
+  display: flex;
+  margin: 0 auto;
+  column-gap: 15px;
+}
+
+@media (max-width: 840px) {
+  .sorting {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    column-gap: 30px;
+  }
+}

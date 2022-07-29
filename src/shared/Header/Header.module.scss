@@ -1,0 +1,45 @@
+@import '../../styles/variables';
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $primary-color;
+  padding: 15px 60px;
+  box-shadow: 2px 4px 4px rgb(0, 0, 0, 0.19);
+
+  a {
+    text-decoration: none;
+    color: $light-color;
+  }
+
+  &__link {
+    transition: color 0.3s ease-in-out;
+    font-size: 18px;
+  }
+
+  &__link:hover {
+    color: $hover-font-color;
+  }
+}
+
+.groupWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+  &__title {
+    font-weight: 700;
+    font-size: 20px;
+  }
+  img {
+    height: 38px;
+    width: 38px;
+  }
+}

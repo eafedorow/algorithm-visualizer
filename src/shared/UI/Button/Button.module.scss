@@ -1,0 +1,20 @@
+.button {
+  padding: 3px 15px 3px 15px;
+  opacity: 1;
+  font-size: 15px;
+  color: white;
+  background-color: #6AAEFF;
+  border-radius: 5px;
+  border: 2px solid #3F8EEB;
+  transition: all 0.2s ease-in-out;
+  display: inline;
+
+  &:hover {
+    background-color: #3F8EEB;
+    cursor: pointer;
+  }
+  &:disabled {
+    opacity: 0.4;
+    border: 2px solid red;
+  }
+}
