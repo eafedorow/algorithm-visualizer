@@ -93,6 +93,7 @@ export const Sorting = (props: Props) => {
             }
         }
         await sleep(delay)
+        dispatch(setIsSorting(false));
         setSortButtonText('Start sort')
     }
     function colorCheckerSelection(index: number, isPaused: boolean): string {
