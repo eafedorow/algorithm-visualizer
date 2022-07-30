@@ -28,7 +28,7 @@ const initialState = {
     isSorting: false,
     isSwapping: false,
     isStopped: false,
-    sortingFunction: 'selectionSort',
+    sortingAlgorithm: 'bubbleSort',
     arrayLength: initialArrayLength,
     data: resetArray(initialArrayLength),
 }
@@ -74,8 +74,8 @@ export const sortingSlice = createSlice({
         setArrayLength(state, action) {
             state.arrayLength = action.payload;
         },
-        setSortingFunction(state, action) {
-            state.sortingFunction = action.payload
+        setSortingAlgorithm(state, action) {
+            state.sortingAlgorithm = action.payload
         }
     }
 })

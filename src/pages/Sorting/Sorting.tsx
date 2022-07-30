@@ -9,6 +9,7 @@ import {SortingChart} from "./components/SortingChart/SortingChart";
 import {SortingAnimation} from "../../models/classes/SortingAnimation";
 import {TimeoutId} from "@reduxjs/toolkit/dist/query/core/buildMiddleware/types";
 import {SettingsBlock} from "../../shared/SettingsBlock/SettingsBlock";
+import {bubbleSort} from "../../algorithms/sorting/BubbleSort/bubbleSort";
 
 interface Props {
 
@@ -16,7 +17,7 @@ interface Props {
 
 export const Sorting = (props: Props) => {
     const [animations, setAnimations] = useState<SortingAnimation[]>([]);
-    const [delay, setDelay] = useState(100);
+    const [delay, setDelay] = useState(400);
     const [timeouts, setTimeouts] = useState<TimeoutId[]>([]);
     const [sortButtonText, setSortButtonText] = useState('Start sort');
 
@@ -29,7 +30,7 @@ export const Sorting = (props: Props) => {
         comparableIndex,
         data,
         arrayLength,
-        sortingFunction} = useAppSelector(state => state.sortingReducer);
+        sortingAlgorithm} = useAppSelector(state => state.sortingReducer);
 
     const {setActiveIndex,
         setIsSorting,
@@ -41,28 +42,24 @@ export const Sorting = (props: Props) => {
         setData,
         changeDataElements,
         setArrayLength,
-        setSortingFunction} = actions;
+        setSortingAlgorithm} = actions;
 
     const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        visualizeSorting(sortingFunction);
-    }, [animations])
 
     function resetColors() {
         dispatch(setIsSwapping(false));
         dispatch(setIsStopped(false));
         dispatch(setIsSorting(false));
-        /*dispatch(setMinIndex(data.length+1))
-        dispatch(setComparableIndex(0))
-        dispatch(setSortedIndex(0))
-        dispatch(setActiveIndex(0));*/
     }
 
-    async function visualizeSorting(sortingFunction: string) {
-        switch (sortingFunction) {
+    async function visualizeSorting(sortingAlgorithm: string) {
+        switch (sortingAlgorithm) {
             case 'selectionSort':
                 await visualizeSelectionSort();
+                break;
+            case 'bubbleSort':
+                await visualizeBubbleSort();
                 break;
         }
     }
@@ -71,12 +68,16 @@ export const Sorting = (props: Props) => {
         switch (colorChecker) {
             case 'selectionSort':
                 return colorCheckerSelection;
+            case 'bubbleSort':
+                return colorCheckerBubble;
             default:
                 return colorCheckerSelection;
         }
     }
 
+    // SELECTION SORT
     async function visualizeSelectionSort() {
+        const animations = selectionSort(data);
         for (let i = 0; i < animations.length; i++) {
             dispatch(setActiveIndex(animations[i].activeIndex))
             dispatch(setComparableIndex(animations[i].comparableIndex))
@@ -92,11 +93,8 @@ export const Sorting = (props: Props) => {
             }
         }
         await sleep(delay)
-        dispatch(setIsSorting(false))
         setSortButtonText('Start sort')
     }
-
-
     function colorCheckerSelection(index: number, isPaused: boolean): string {
         if(isPaused) {
             if(isSwapping) {
@@ -131,17 +129,42 @@ export const Sorting = (props: Props) => {
         }
     }
 
-    function colorCheckerSelection1(index: number, isPaused: boolean): string {
+    // BUBBLE SORT
+    async function visualizeBubbleSort() {
+        const animations = bubbleSort(data);
+        dispatch(setSortedIndex(data.length + 1))
+        for (let i = 0; i < animations.length; i++) {
+            dispatch(setActiveIndex(animations[i].activeIndex))
+            dispatch(setComparableIndex(animations[i].comparableIndex))
+
+
+            if(animations[i].isSwapping) {
+                dispatch(setIsSwapping(true))
+                dispatch(changeDataElements(animations[i].swapIndex));
+                await sleep(delay);
+                dispatch(setIsSwapping(false))
+            }
+            await sleep(delay);
+            if(animations[i].sortedIndex < data.length) {
+                dispatch(setSortedIndex(animations[i].sortedIndex))
+            }
+            await sleep(delay);
+        }
+        await sleep(delay)
+        dispatch(setIsSorting(false));
+        setSortButtonText('Start sort')
+    }
+    function colorCheckerBubble(index: number, isPaused: boolean): string {
         if(isPaused) {
             if(isSwapping) {
                 if (index === activeIndex) {
                     return "#b70b1f"
-                } else if(index === minIndex) {
+                } else if(index === comparableIndex) {
                     return "#b70b1f"
                 }
-                if(sortedIndex >= 0){
-                    if(index <= sortedIndex) {
-                        return "#000c3a"
+                if(sortedIndex < data.length + 1){
+                    if(index >= sortedIndex) {
+                        return "#25c1c5"
                     }
                 }
                 return "#b4c5da"
@@ -150,12 +173,10 @@ export const Sorting = (props: Props) => {
                     return "#82ca9d"
                 } else if (index === comparableIndex) {
                     return "#a9a84b"
-                } else if(index === minIndex) {
-                    return "#1dc02c"
                 }
             }
-            if(sortedIndex >= 0){
-                if(index <= sortedIndex) {
+            if(sortedIndex < data.length + 1){
+                if(index >= sortedIndex) {
                     return "#25c1c5"
                 }
             }
@@ -181,40 +202,45 @@ export const Sorting = (props: Props) => {
         setTimeouts([])
     }
 
+    async function startSorting() {
+        await dispatch(setIsSorting(true))
+        await dispatch(setIsStopped(false))
+        await visualizeSorting(sortingAlgorithm)
+    }
+
+    function generateNewArray() {
+        dispatch(setData(resetArray(arrayLength)))
+        resetColors();
+        setSortButtonText('Start sort')
+    }
+
+    function stopSorting() {
+        dispatch(setIsSorting(false))
+        dispatch(setIsStopped(true))
+        clearTimeouts();
+        setSortButtonText('Continue')
+    }
+
     return (
         <section className={s.sorting}>
-            <SortingChart colorChecker={colorChecker(sortingFunction)}/>
+            <SortingChart colorChecker={colorChecker(sortingAlgorithm)}/>
             <SettingsBlock title="Sorting settings">
                 <div className={s.settings}>
                     <div className={s.buttonsContainer}>
                         <Button
-                            onClick={async () => {
-                                await dispatch(setIsSorting(true))
-                                await dispatch(setIsStopped(false))
-                                const animations = selectionSort(data);
-                                await setAnimations(animations);
-                            }}
+                            onClick={startSorting}
                             disabled={isSorting}
                         >
                             {sortButtonText}
                         </Button>
                         <Button
-                            onClick={() => {
-                                dispatch(setData(resetArray(arrayLength)))
-                                resetColors();
-                                setSortButtonText('Start sort')
-                            }}
+                            onClick={generateNewArray}
                             disabled={isSorting}
                         >
                             New array
                         </Button>
                         <Button
-                            onClick={() => {
-                                dispatch(setIsSorting(false))
-                                dispatch(setIsStopped(true))
-                                clearTimeouts();
-                                setSortButtonText('Continue')
-                            }}
+                            onClick={stopSorting}
                             disabled={!isSorting}
                         >
                             Stop
@@ -249,10 +275,21 @@ export const Sorting = (props: Props) => {
                            disabled={isSorting}
                     />
                 </div>
-                {/*<div className={s.buttonsContainer}>*/}
-                {/*    <span>Elements count is {arrayLength}</span>*/}
-                {/*    <select/>*/}
-                {/*</div>*/}
+                <div className={s.buttonsContainer}>
+                    <span>Select an algorithm</span>
+                    <select
+                           value={sortingAlgorithm}
+                           onChange={(e) => {
+                               resetColors();
+                               dispatch(setSortingAlgorithm(e.target.value))
+                               setSortButtonText('Start sort')
+                           }}
+                           disabled={isSorting}
+                    >
+                        <option value="bubbleSort">Bubble Sort</option>
+                        <option value="selectionSort">Selection Sort</option>
+                    </select>
+                </div>
             </SettingsBlock>
         </section>
 
