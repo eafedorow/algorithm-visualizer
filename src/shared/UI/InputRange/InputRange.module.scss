@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+}
+
+.slider {
+  width: 100%;
+  position: relative;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 5px;
+  transition: 0.3s ease-in-out;
+
+  & input {
+    width: 100%;
+    opacity: 1;
+    transition: all 0.2s ease-in-out;
+    border: 1px solid transparent;
+  }
+
+  & input:disabled {
+    opacity: 0.4;
+    border: 1px solid red;
+  }
+}
+
+.disable{
+  border: 2px solid red;
+}
+.active{
+  border: 2px solid transparent;
+}
+
+
+
+

@@ -11,7 +11,7 @@ export const SortingChart = ({colorChecker}: Props) => {
     const {data, isSorting, isStopped} = useAppSelector(state => state.sortingReducer);
     return (
         <section className={s.sorting__chart}>
-            <ResponsiveContainer  width={'100%'} height={500}>
+            <ResponsiveContainer  width={'100%'} height={200}>
                 <BarChart data={data}>
                     <XAxis dataKey="name" stroke="#06292E" />
                     <YAxis />

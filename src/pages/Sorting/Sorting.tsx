@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {ChangeEvent, useEffect, useState} from 'react'
 import { Button } from '../../shared/UI/Button/Button';
 import s from './Sorting.module.scss'
 import {resetArray} from "../../utils/utils";
@@ -6,17 +6,17 @@ import {selectionSort} from "../../algorithms/sorting/SelectionSort/selectionSor
 import {actions} from '../../store/reducers/SortingSlice'
 import {useAppDispatch, useAppSelector} from '../../hooks/redux'
 import {SortingChart} from "./components/SortingChart/SortingChart";
-import {SortingAnimation} from "../../models/classes/SortingAnimation";
 import {TimeoutId} from "@reduxjs/toolkit/dist/query/core/buildMiddleware/types";
 import {SettingsBlock} from "../../shared/SettingsBlock/SettingsBlock";
 import {bubbleSort} from "../../algorithms/sorting/BubbleSort/bubbleSort";
+import {Dropdown} from "../../shared/UI/Dropdown/Dropdown";
+import {InputRange} from "../../shared/UI/InputRange/InputRange";
 
 interface Props {
 
 }
 
 export const Sorting = (props: Props) => {
-    const [animations, setAnimations] = useState<SortingAnimation[]>([]);
     const [delay, setDelay] = useState(400);
     const [timeouts, setTimeouts] = useState<TimeoutId[]>([]);
     const [sortButtonText, setSortButtonText] = useState('Start sort');
@@ -46,29 +46,25 @@ export const Sorting = (props: Props) => {
 
     const dispatch = useAppDispatch();
 
+    const algorithms = ['Selection Sort', 'Bubble Sort'];
 
-    function resetColors() {
-        dispatch(setIsSwapping(false));
-        dispatch(setIsStopped(false));
-        dispatch(setIsSorting(false));
-    }
-
+    /*COMMON FUNCTIONS FOR SORTING*/
+    /*TODO: Make enums for color checkers and sorting functions*/
     async function visualizeSorting(sortingAlgorithm: string) {
         switch (sortingAlgorithm) {
-            case 'selectionSort':
+            case 'Selection Sort':
                 await visualizeSelectionSort();
                 break;
-            case 'bubbleSort':
+            case 'Bubble Sort':
                 await visualizeBubbleSort();
                 break;
         }
     }
-
     function colorChecker(colorChecker: string): (index: number, isPaused: boolean) => string {
         switch (colorChecker) {
-            case 'selectionSort':
+            case 'Selection Sort':
                 return colorCheckerSelection;
-            case 'bubbleSort':
+            case 'Bubble Sort':
                 return colorCheckerBubble;
             default:
                 return colorCheckerSelection;
@@ -187,6 +183,8 @@ export const Sorting = (props: Props) => {
         }
     }
 
+    /*UTILS THAT STILL HERE BECAUSE OF DISPATCH*/
+    /*TODO: FIGURE OUT HOW TO REMOVE THAT FUNCTION FROM CURRENT FILE*/
     function sleep(ms:number) {
         let promise = new Promise((resolve) => {
             const timeoutHandle = setTimeout(resolve, ms);
@@ -195,31 +193,46 @@ export const Sorting = (props: Props) => {
 
         return promise;
     }
-
     function clearTimeouts() {
         timeouts.forEach((t) => {
             clearTimeout(t);
         })
         setTimeouts([])
     }
+    function resetColors() {
+        dispatch(setIsSwapping(false));
+        dispatch(setIsStopped(false));
+        dispatch(setIsSorting(false));
+    }
+    function changeArraySize(e: ChangeEvent<HTMLInputElement>) {
+        resetColors();
+        dispatch(setArrayLength(Number(e.target.value)))
+        dispatch(setData(resetArray(arrayLength)))
+        setSortButtonText('Start sort')
+    }
 
+    /*BUTTONS BEHAVIOR*/
     async function startSorting() {
         await dispatch(setIsSorting(true))
         await dispatch(setIsStopped(false))
         await visualizeSorting(sortingAlgorithm)
     }
-
     function generateNewArray() {
         dispatch(setData(resetArray(arrayLength)))
         resetColors();
         setSortButtonText('Start sort')
     }
-
     function stopSorting() {
         dispatch(setIsSorting(false))
         dispatch(setIsStopped(true))
         clearTimeouts();
         setSortButtonText('Continue')
+    }
+    function changeAlgorithm(algorithm: string) {
+        resetColors();
+        clearTimeouts();
+        dispatch(setSortingAlgorithm(algorithm))
+        setSortButtonText('Start sort')
     }
 
     return (
@@ -227,69 +240,68 @@ export const Sorting = (props: Props) => {
             <SortingChart colorChecker={colorChecker(sortingAlgorithm)}/>
             <SettingsBlock title="Sorting settings">
                 <div className={s.settings}>
-                    <div className={s.buttonsContainer}>
-                        <Button
-                            onClick={startSorting}
-                            disabled={isSorting}
-                        >
-                            {sortButtonText}
-                        </Button>
-                        <Button
-                            onClick={generateNewArray}
-                            disabled={isSorting}
-                        >
-                            New array
-                        </Button>
-                        <Button
-                            onClick={stopSorting}
-                            disabled={!isSorting}
-                        >
-                            Stop
-                        </Button>
+                    <div className={s.sliders}>
+                        {/*TODO: Rebuild like independent component*/}
+                        <div className={s.buttonsContainer}>
+                            <Button
+                                onClick={startSorting}
+                                disabled={isSorting}
+                            >
+                                {sortButtonText}
+                            </Button>
+                            <Button
+                                onClick={generateNewArray}
+                                disabled={isSorting}
+                            >
+                                New array
+                            </Button>
+                            <Button
+                                onClick={stopSorting}
+                                disabled={!isSorting}
+                            >
+                                Stop
+                            </Button>
+                            <div className={s.inputContainer__item}>
+                                <span>Pick an algorithm:</span>
+                                <Dropdown
+                                    title={sortingAlgorithm}
+                                    setTitle={changeAlgorithm}
+                                    options={algorithms}
+                                />
+                            </div>
+                        </div>
                     </div>
+
                 </div>
-                <div className={s.buttonsContainer}>
-                    <span>Delay is {delay}</span>
-                    <input type="range"
-                           value={delay}
-                           step={10}
-                           max={1000}
-                           min={10}
-                           disabled={isSorting}
-                           onChange={(e) => {
-                             setDelay(Number(e.target.value))
-                           }}/>
-                </div>
-                <div className={s.buttonsContainer}>
-                    <span>Elements count is {arrayLength}</span>
-                    <input type="range"
-                           value={arrayLength}
-                           step={1}
-                           max={50}
-                           min={4}
-                           onChange={(e) => {
-                               resetColors();
-                               dispatch(setArrayLength(Number(e.target.value)))
-                               dispatch(setData(resetArray(arrayLength)))
-                               setSortButtonText('Start sort')
-                           }}
-                           disabled={isSorting}
-                    />
-                </div>
-                <div className={s.buttonsContainer}>
-                    <span>Select an algorithm</span>
-                    <select
-                           value={sortingAlgorithm}
-                           onChange={(e) => {
-                               resetColors();
-                               dispatch(setSortingAlgorithm(e.target.value))
-                               setSortButtonText('Start sort')
-                           }}
-                           disabled={isSorting}
-                    >
-                        <option value="bubbleSort">Bubble Sort</option>
-                        <option value="selectionSort">Selection Sort</option>
-                    </select>
+                {/*TODO: Rebuild like independent component*/}
+                <div className={s.inputContainer}>
+                    <div className={s.sliders}>
+                        <div className={s.inputContainer__item}>
+                            <span>Delay is {delay}</span>
+                            <InputRange
+                                value={delay}
+                                step={10}
+                                max={1000}
+                                min={10}
+                                disabled={isSorting}
+                                onChange={(e) => {
+                                    setDelay(Number(e.target.value))
+                                }}
+                            />
+                        </div>
+                        <div className={s.inputContainer__item}>
+                            <span>Elements count is {arrayLength}</span>
+                            <InputRange
+                                value={arrayLength}
+                                step={1}
+                                max={50}
+                                min={4}
+                                onChange={(e) => changeArraySize(e)}
+                                disabled={isSorting}
+                            />
+                        </div>
+                    </div>
+
                 </div>
             </SettingsBlock>
         </section>

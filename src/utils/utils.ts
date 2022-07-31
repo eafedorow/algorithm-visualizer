@@ -1,5 +1,4 @@
 import {v4} from "uuid";
-import {actions} from "../store/reducers/SortingSlice";
 import {IBarValue} from "../models/interfaces/IBarValue";
 
 
@@ -8,8 +7,6 @@ export function getRandomInt(min: number, max: number) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
-
 
 export function resetArray(size?: number):IBarValue[] {
     if(!size) {
