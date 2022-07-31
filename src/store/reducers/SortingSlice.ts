@@ -28,7 +28,7 @@ const initialState = {
     isSorting: false,
     isSwapping: false,
     isStopped: false,
-    sortingAlgorithm: 'bubbleSort',
+    sortingAlgorithm: 'Bubble Sort',
     arrayLength: initialArrayLength,
     data: resetArray(initialArrayLength),
 }
