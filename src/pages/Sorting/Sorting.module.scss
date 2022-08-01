@@ -1,14 +1,23 @@
 .sorting {
   margin-top: 1px;
+  height: 750px;
   display: flex;
   justify-content: space-between;
   column-gap: 30px;
+  flex-grow: 1;
 }
 
 .buttonsContainer {
   display: flex;
   margin: 0 auto;
-  column-gap: 15px;
+  row-gap: 25px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttons {
+  display: flex;
+  column-gap: 10px;
 }
 
 .inputContainer {
@@ -36,13 +45,30 @@
   .sorting {
     margin-top: 10px;
     display: flex;
+    height: 100vh;
     flex-direction: column-reverse;
-    justify-content: space-between;
+    justify-content: flex-end;
     column-gap: 30px;
   }
   .inputContainer {
     flex-direction: row;
     column-gap: 30px;
+    align-items: flex-end;
+  }
+}
+
+@media (max-width: 650px) {
+  .sorting {
+    margin-top: 5px;
+    display: flex;
+    height: 100vh;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    column-gap: 10px;
+  }
+  .inputContainer {
+    flex-direction: row;
+    column-gap: 20px;
     align-items: flex-end;
   }
 }

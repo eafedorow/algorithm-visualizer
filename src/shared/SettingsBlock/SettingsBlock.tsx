@@ -10,7 +10,9 @@ export const SettingsBlock = ({title, children}: Props) => {
     return (
         <section className={s.settingSection}>
             <h2>{title}</h2>
-            {children}
+            <div className={s.contentWrapper}>
+                {children}
+            </div>
         </section>
     )
 }

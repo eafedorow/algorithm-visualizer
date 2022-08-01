@@ -1,5 +1,10 @@
 .settingSection {
   margin-top: 20px;
+  text-align: center;
+}
+
+.contentWrapper {
+  margin-top: 20px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -8,11 +13,14 @@
 
 @media (max-width: 980px) {
   .settingSection {
+    margin-top: 5px;
+  }
+  .contentWrapper {
     align-items: center;
     row-gap: 20px;
-    margin-top: 0;
     margin-bottom: 20px;
     flex-direction: row;
+    justify-content: space-between;
     flex-wrap: wrap;
     h2 {
       margin: 0;
