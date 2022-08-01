@@ -10,7 +10,7 @@ interface Props {
 }
 
 const COLS = 26;
-const ROWS = 13;
+const ROWS = 15;
 
 export const GridElement = (props: Props) => {
 
