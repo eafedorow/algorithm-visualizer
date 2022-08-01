@@ -25,3 +25,18 @@
   }
 }
 
+@media (max-width: 989px) {
+  .legend {
+    column-gap: 20px;
+    row-gap: 10px;
+    &__item {
+      width: 120px;
+      font-size: 10px;
+    }
+  }
+}
+
+@media (max-width: 650px) {
+
+}
+

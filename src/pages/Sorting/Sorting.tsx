@@ -243,24 +243,26 @@ export const Sorting = (props: Props) => {
                     <div className={s.sliders}>
                         {/*TODO: Rebuild like independent component*/}
                         <div className={s.buttonsContainer}>
-                            <Button
-                                onClick={startSorting}
-                                disabled={isSorting}
-                            >
-                                {sortButtonText}
-                            </Button>
-                            <Button
-                                onClick={generateNewArray}
-                                disabled={isSorting}
-                            >
-                                New array
-                            </Button>
-                            <Button
-                                onClick={stopSorting}
-                                disabled={!isSorting}
-                            >
-                                Stop
-                            </Button>
+                            <div className={s.buttons}>
+                                <Button
+                                    onClick={startSorting}
+                                    disabled={isSorting}
+                                >
+                                    {sortButtonText}
+                                </Button>
+                                <Button
+                                    onClick={generateNewArray}
+                                    disabled={isSorting}
+                                >
+                                    New array
+                                </Button>
+                                <Button
+                                    onClick={stopSorting}
+                                    disabled={!isSorting}
+                                >
+                                    Stop
+                                </Button>
+                            </div>
                             <div className={s.inputContainer__item}>
                                 <span>Pick an algorithm:</span>
                                 <Dropdown
