@@ -4,67 +4,72 @@ import {Spot} from "../../../../models/classes/Spot";
 import {Node} from '../Node/Node'
 import s from './Grid.module.scss'
 import NodesStyles from '../Node/Node.module.scss'
+import {useDispatch} from "react-redux";
+import {actions} from "../../../../store/reducers/PathfindingSlice";
+import {useAppSelector} from "../../../../hooks/redux";
+
 
 interface Props {
 
 }
 
-const COLS = 26;
-const ROWS = 15;
 
 export const GridElement = (props: Props) => {
 
-    useEffect(() => {
-        initilizeGrid()
-    },[])
+    const dispatch = useDispatch();
+    const {
+        setGrid,
+        setNodeSettingType,
+        setIsNodeSetting,
+        setStartRow,
+        setIsPathfinding,
+        setEndCol,
+        setEndRow,
+        setStartCol
+    } = actions;
 
-    const [startRow, setStartRow] = useState(Math.round(ROWS/2));
-    const [startCol, setStartCol] = useState(Math.round(COLS/2));;
-    const [endRow, setEndRow ] = useState(ROWS - 1);
-    const [endCol, setEndCol] = useState(COLS - 1);
-    const [nodes, setNodes] = useState<Spot[][]>();
-    const [isPathfinding, setIsPathfinding] = useState(false);
-    const [isNodeSetting, setIsNodeSetting] = useState(true);
-    const [nodeSettingType, setNodeSettingType] = useState('END');
+    const {
+        startRow,
+        startCol,
+        endRow,
+        endCol,
+        grid,
+        isPathfinding,
+        isNodeSetting,
+        nodeSettingType,
+    } = useAppSelector(state => state.pathfindingReducer)
 
-    const initilizeGrid = () => {
-
-        const grid = new Grid(ROWS, COLS, startRow, startCol, endRow, endCol);
-        setNodes(grid.nodes);
-
-    }
-
-    function setNode(nodeSettingType: string, x: number, y: number) {
-        const gridNodes = nodes;
-        let newNode = gridNodes![x][y];
+    async function setNode(nodeSettingType: string, x: number, y: number) {
+        let newGrid = grid;
+        let newNode = newGrid.nodes![x][y];
         switch (nodeSettingType) {
             case "WALL":
                 if (!newNode.isStart && !newNode.isEnd) {
-                    newNode.isWall = newNode.isWall ? false : true;
-                    gridNodes![x][y] = newNode;
-                    setNodes(gridNodes);
+                    newNode.isWall = !newNode.isWall;
+                    newGrid.nodes![x][y] = newNode;
+                    await dispatch(setGrid(newGrid));
                 }
                 break;
             case "START":
                 if (!newNode.isStart && !newNode.isEnd) {
-                    gridNodes![startRow][startCol].isStart = false;
+                    grid.nodes![startRow][startCol].isStart = false;
                     newNode.isStart = true;
                     newNode.isWall = false;
-                    gridNodes![x][y] = newNode;
-                    setNodes(gridNodes);
-                    setStartRow(x);
-                    setStartCol(y);
+                    newGrid.nodes![x][y] = newNode;
+                    dispatch(setStartRow(x));
+                    dispatch(setStartCol(y));
+                    dispatch(setGrid(newGrid));
                 }
                 break;
             case "END":
                 if (!newNode.isStart && !newNode.isEnd) {
-                    gridNodes![endRow][endCol].isEnd = false;
+                    grid.nodes![endRow][endCol].isEnd = false;
                     newNode.isEnd = true;
                     newNode.isWall = false;
-                    gridNodes![x][y] = newNode;
-                    setNodes(gridNodes);
-                    setEndRow(x);
-                    setEndCol(y);
+                    newGrid.nodes![x][y] = newNode;
+                    dispatch(setEndRow(x));
+                    dispatch(setEndCol(y));
+                    dispatch(setGrid(newGrid));
                 }
                 break;
             default:
@@ -73,7 +78,7 @@ export const GridElement = (props: Props) => {
     }
 
     function clearGrid() {
-        nodes!.map((nodeAxis) => {
+        grid.nodes!.map((nodeAxis) => {
             nodeAxis.map((node) => {
                 if(!node.isStart && !node.isEnd && !node.isWall) {
                     // @ts-ignore
@@ -86,29 +91,29 @@ export const GridElement = (props: Props) => {
     function onMouseDown (nodeSettingType: string, x: number, y: number) {
         if(!isPathfinding) {
             clearGrid();
-            setIsNodeSetting(true);
+            dispatch(setIsNodeSetting(true));
             setNode(nodeSettingType, x, y)
         }
     }
 
     function onMouseUp() {
-        setIsNodeSetting(false);
+        dispatch(setIsNodeSetting(false));
     }
 
-    function mouseEnterHandle(nodeSettingType: string, x: number, y: number) {
-        if(isNodeSetting && nodeSettingType !== "START" && nodeSettingType !== "END") {
+    /*TODO: IMPROVE THAT METHOD*/
+    async function mouseEnterHandle(nodeSettingType: string, x: number, y: number) {
+       /* if(isNodeSetting && nodeSettingType !== "START" && nodeSettingType !== "END") {
             setNode(nodeSettingType, x, y)
-        }
+        }*/
     }
     return (
         <div className={s.grid}>
-            {nodes?.map((row, rowIndex) => {
+            {grid.nodes?.map((row, rowIndex) => {
                 return(
                     <div key={rowIndex} className={s.rowWrapper}>
                         {row.map((col, colIndex) => {
                             const {isStart, isEnd, isWall} = col;
                             return <Node
-                                nodeSettingType={nodeSettingType}
                                 key={colIndex}
                                 isStart={isStart}
                                 isEnd={isEnd}

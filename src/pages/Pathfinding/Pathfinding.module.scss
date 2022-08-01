@@ -9,7 +9,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    row-gap: 20px;
+    row-gap: 25px;
 
     &_element {
       text-align: center;
@@ -25,4 +25,8 @@
     align-items: center;
     column-gap: 15px;
   }
+}
+
+.status {
+  text-decoration: underline;
 }
