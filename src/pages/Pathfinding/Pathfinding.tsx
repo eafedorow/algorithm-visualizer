@@ -8,7 +8,7 @@ interface Props {
 
 export const Pathfinding = (props: Props) => {
     return (
-        <div className={s.wrapper}>
+        <div className={s.pathfinding}>
             <GridElement/>
         </div>
     )
