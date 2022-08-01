@@ -1,5 +1,6 @@
 import React from 'react'
 import s from './Node.module.scss'
+import {useAppSelector} from "../../../../hooks/redux";
 
 interface Props {
     isStart: boolean;
@@ -10,10 +11,10 @@ interface Props {
     onMouseEnter: (nodeType: string, row: number, col: number) => void;
     onMouseUp: () => void;
     onMouseDown: (nodeType: string, row: number, col: number) => void;
-    nodeSettingType: string;
 }
 
-export const Node = ({isStart, isEnd, isWall, row, col, onMouseEnter,onMouseDown, onMouseUp, nodeSettingType}: Props) => {
+export const Node = ({isStart, isEnd, isWall, row, col, onMouseEnter,onMouseDown, onMouseUp}: Props) => {
+    const {nodeSettingType} = useAppSelector(state => state.pathfindingReducer)
     const extraClass = isStart ? s.nodeStart : isWall ? s.nodeWall : isEnd ? s.nodeEnd : s.nodeRegular;
     return (
         <div

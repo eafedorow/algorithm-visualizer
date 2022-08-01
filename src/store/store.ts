@@ -1,13 +1,16 @@
-import {combineReducers, configureStore} from "@reduxjs/toolkit";
+import {combineReducers, configureStore, getDefaultMiddleware} from "@reduxjs/toolkit";
 import sortingReducer from './reducers/SortingSlice'
+import pathfindingReducer from "./reducers/PathfindingSlice";
 
 const rootReducer = combineReducers({
-    sortingReducer
+    sortingReducer,
+    pathfindingReducer
 })
 
 export const setupStore = () => {
     return configureStore({
-        reducer: rootReducer
+        reducer: rootReducer,
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware()
     })
 }
 
