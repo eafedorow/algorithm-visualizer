@@ -40,3 +40,67 @@
   }
 }
 
+
+@media (max-width: 989px) {
+  .about {
+    margin: 60px auto;
+    max-width: 610px;
+    transition: 0.3s ease-in-out;
+    height: 70vh;
+
+    &__title {
+      text-shadow: 10px 10px 2px 2px;
+      font-weight: 700;
+      font-size: 40px;
+      margin: 10px;
+    }
+
+    &__text {
+      font-size: 22px;
+      margin-top: 10px;
+    }
+  }
+
+  .author {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 650px) {
+  .about {
+    max-width: 680px;
+
+    &__title {
+      font-size: 30px;
+    }
+
+    &__text {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+  }
+  .author {
+    font-size: 12px;
+
+  }
+}
+
+@media (max-width: 386px) {
+  .about {
+
+    &__title {
+      font-size: 24px;
+    }
+
+    &__text {
+      font-size: 15px;
+      margin-top: 10px;
+    }
+  }
+  .author {
+    font-size: 12px;
+
+  }
+}
+
+
