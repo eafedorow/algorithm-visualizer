@@ -12,7 +12,7 @@ Web applications for sequential visualization of algorithms
 ### Sorting:
 1. Sequential visualization of the algorithm with a setted delay value;
 2. The ability to stop and continue sorting at any moment;
-3. Generatin a new random data array;
+3. Generation a new random data array;
 4. Ability to change the delay value in the algorithm (lower delay, faster visualization);
 5. Ability to choose different sorting algorithms;
 6. Ability to change size of unsorted array;
