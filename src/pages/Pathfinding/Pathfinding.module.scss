@@ -1,8 +1,15 @@
 
-
 .pathfinding {
   display: flex;
   justify-content: space-between;
+
+  &__controls {
+    display: flex;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 25px;
+  }
 
   &__settings {
     padding-top: 20px;
@@ -29,4 +36,66 @@
 
 .status {
   text-decoration: underline;
+}
+
+@media (max-width: 989px) {
+  .pathfinding {
+    height: 100vh;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    column-gap: 10px;
+
+    &__controls {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      column-gap: 25px;
+      margin-bottom: 20px;
+    }
+
+    &_element {
+      flex-direction: row;
+      column-gap: 25px;
+    }
+  }
+  .inputContainer {
+    flex-direction: row;
+    column-gap: 30px;
+    align-items: flex-end;
+  }
+}
+
+@media (max-width: 650px) {
+  .pathfinding {
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    column-gap: 10px;
+
+    &__title {
+      font-size: 20px
+    }
+
+    &__settings {
+      padding-top: 2px;
+      row-gap: 15px;
+
+      &_element {
+        font-size: 14px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+      }
+    }
+
+    &__controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      row-gap: 25px;
+      margin-bottom: 20px;
+    }
+  }
+
 }

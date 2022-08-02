@@ -14,14 +14,18 @@ interface PathfindingState {
     endRow: number;
     endCol: number;
     grid: Grid;
+    path: Spot[];
+    visitedNodes: Spot[];
+    visualize: number;
+    newGridGeneration: number;
 }
 
-const COLS = 26;
-const ROWS = 15;
-let startRow = Math.round(ROWS/2);
-let startCol = Math.round(COLS/2);
-let endRow = ROWS - 1;
-let endCol = COLS - 1
+const COLS = 20;
+const ROWS = 12;
+let startRow = Math.round(ROWS/2 - 1);
+let startCol = Math.round(COLS/2 - 8);
+let endRow = Math.round(ROWS/2 - 1);
+let endCol = Math.round(COLS/2 + 8);
 
 
 const initialState = {
@@ -32,7 +36,11 @@ const initialState = {
     startCol,
     endRow,
     endCol,
+    path: [],
+    visitedNodes: [],
     grid: new Grid(ROWS, COLS, startRow, startCol, endRow, endCol),
+    visualize: 0,
+    newGridGeneration: 0,
 }
 
 
@@ -65,6 +73,18 @@ export const pathfindingSlice = createSlice({
         },
         setEndCol(state, action) {
             state.endCol = action.payload
+        },
+        setVisitedNodes(state, action) {
+            state.visitedNodes = action.payload;
+        },
+        setPath(state, action) {
+            state.path = action.payload;
+        },
+        incrementVisualize(state) {
+            state.visualize++;
+        },
+        incrementGeneration(state) {
+            state.newGridGeneration++;
         }
     }
 })
