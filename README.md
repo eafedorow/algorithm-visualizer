@@ -24,7 +24,7 @@ Web applications for sequential visualization of algorithms
 ### Pathfinding:
 1. Sequential visualization of the algorithm with with a constant delay value;
 2. Generatin a new random grid;
-3. Ability to change the coordinates of the target node;
+3. Ability to change the coordinates of the target node (Temporarily unavailable);
 4. Ability to add and remove wall (unwalkable) nodes
 
 #### List of available pathfinding algorithms:
