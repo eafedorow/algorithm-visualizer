@@ -1,46 +1,32 @@
-# Getting Started with Create React App
+# AlgorithmVisualizer
+Web applications for sequential visualization of algorithms
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Technologies stack:
+1. Typescript;
+2. React;
+3. ReduxToolkit;
+4. SCSS;
+5. CSS-modules;
 
-## Available Scripts
+## Current functionality
+### Sorting:
+1. Sequential visualization of the algorithm with a setted delay value;
+2. The ability to stop and continue sorting at any moment;
+3. Generatin a new random data array;
+4. Ability to change the delay value in the algorithm (lower delay, faster visualization);
+5. Ability to choose different sorting algorithms;
+6. Ability to change size of unsorted array;
 
-In the project directory, you can run:
+#### List of available sorting algorithms:
+1. Bubble Sort
+2. Insertion Sort
 
-### `npm start`
+### Pathfinding:
+1. Sequential visualization of the algorithm with with a constant delay value;
+2. Generatin a new random grid;
+3. Ability to change the coordinates of the target node;
+4. Ability to add and remove wall (unwalkable) nodes
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+#### List of available pathfinding algorithms:
+1. A*
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
