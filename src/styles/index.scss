@@ -18,12 +18,16 @@ body {
   background: linear-gradient(180deg,#6aaeff,rgba(106,174,255,.341) 99.99%,#06292e);
   margin: 0 auto;
   transition: 0.3s;
-  height: 100vh;
+  max-width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .container {
+  width: 100%;
   padding: 20px 60px;
-  position: relative;
 }
 
 @media (max-width: 920px) {

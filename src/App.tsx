@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Route, Routes} from "react-router-dom";
 import {About} from "./pages/About/About";
 import {Pathfinding} from "./pages/Pathfinding/Pathfinding";
@@ -9,9 +9,9 @@ import {Header} from "./shared/Header/Header";
 const App = () => {
 
     return (
-      <div className="globalContainer">
+      <div className="globalContainer"  id="page-wrap">
           <Header/>
-          <div className="container">
+          <div className="container" >
               <Routes>
                   <Route path="/" element={<About/>}/>
                   <Route path="/sorting" element={<Sorting/>}/>
