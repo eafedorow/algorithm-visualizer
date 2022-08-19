@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react'
-import {Grid} from "../../../../models/classes/Grid";
 import {Spot} from "../../../../models/classes/Spot";
 import {Node} from '../Node/Node'
 import s from './Grid.module.scss'
@@ -16,12 +15,11 @@ interface Props {
 }
 
 
-export const GridElement = (props: Props) => {
+export const GridElement = () => {
     const [timeoutsArray, setTimeoutsArray] = useState<TimeoutId[]>([]);
     const dispatch = useDispatch();
     const {
         setGrid,
-        setNodeSettingType,
         setIsNodeSetting,
         setStartRow,
         setIsPathfinding,
@@ -39,7 +37,6 @@ export const GridElement = (props: Props) => {
         endCol,
         grid,
         isPathfinding,
-        visualize,
         path,
         visitedNodes,
         nodeSettingType,
@@ -47,22 +44,16 @@ export const GridElement = (props: Props) => {
     } = useAppSelector(state => state.pathfindingReducer)
 
     useEffect(() => {
-        visualizePath();
-    },[visualize])
+        if(isPathfinding) {
+            visualizePath();
+        }
+    },[isPathfinding])
 
     useEffect(() => {
         clearGrid();
         buildPath();
     },[newGridGeneration])
 
-    function sleep(ms:number) {
-        let promise = new Promise((resolve) => {
-            const timeoutHandle = setTimeout(resolve, ms);
-            setTimeoutsArray([...timeoutsArray, timeoutHandle])
-        });
-
-        return promise;
-    }
 
     async function setNode(nodeSettingType: string, x: number, y: number) {
         let newGrid = grid;

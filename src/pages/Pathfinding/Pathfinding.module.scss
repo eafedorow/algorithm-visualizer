@@ -2,9 +2,9 @@
 .pathfinding {
   display: flex;
   justify-content: space-between;
+  column-gap: 30px;
 
   &__controls {
-    display: flex;
     display: flex;
     flex-direction: column;
     align-items: center;

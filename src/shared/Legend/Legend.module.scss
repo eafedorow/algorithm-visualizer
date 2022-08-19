@@ -37,6 +37,13 @@
 }
 
 @media (max-width: 650px) {
-
+  .legend {
+    column-gap: 20px;
+    row-gap: 10px;
+    &__item {
+      width: 110px;
+      font-size: 8px;
+    }
+  }
 }
 

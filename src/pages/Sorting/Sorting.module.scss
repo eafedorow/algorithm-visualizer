@@ -1,8 +1,6 @@
 .sorting {
-  margin-top: 1px;
-  height: 750px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   column-gap: 30px;
   flex-grow: 1;
 }
@@ -41,11 +39,21 @@
   row-gap: 20px;
 }
 
+@media (max-width: 1350px) {
+  .sorting {
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+  }
+  .inputContainer {
+    flex-direction: row;
+    column-gap: 30px;
+    align-items: flex-end;
+  }
+}
+
 @media (max-width: 989px) {
   .sorting {
     margin-top: 10px;
-    display: flex;
-    height: 100vh;
     flex-direction: column-reverse;
     justify-content: flex-end;
     column-gap: 30px;
